@@ -1,8 +1,10 @@
 package cn.mcfun.savedata;
 
+import android.Manifest;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
     final String del = "/Android/data/com.aniplex.fategrandorder/files/data";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        while(!checkPermission()){
+            try {
+                Thread.currentThread().sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView lblTitle = findViewById(R.id.editText1);
@@ -28,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             data = FileUtil.encrypt(data);*/
             lblTitle.setText(data);
         } catch (Exception e) {
-            lblTitle.setText("未找到存档文件！");
+            lblTitle.setText("权限不足或未找到存档码文件！");
         }
         Button button1 = findViewById(R.id.buttonCopy1);
         button1.setOnClickListener(new View.OnClickListener(){
@@ -37,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                                            ClipboardManager cbm= (ClipboardManager) MainActivity.this
                                                    .getSystemService(Context.CLIPBOARD_SERVICE);
                                            cbm.setText(lblTitle.getText());
-                                           Toast.makeText(MainActivity.this, "存档复制成功！",Toast.LENGTH_LONG).show();
+                                           Toast.makeText(MainActivity.this, "存档码复制成功！",Toast.LENGTH_LONG).show();
                                        }
                                    }
         );
@@ -48,8 +57,12 @@ public class MainActivity extends AppCompatActivity {
                                            try {
                                                FileUtil.deletefile(del);
                                                String data = FileUtil.decrypt(lblTitle.getText().toString());
-                                               FileUtil.saveFile(FileUtil.encrypt(data),path);
-                                               Toast.makeText(MainActivity.this, "存档导入成功！",Toast.LENGTH_LONG).show();
+                                               if(data == null || data.equals("") || data.trim().equals("")){
+                                                   Toast.makeText(MainActivity.this, "存档码格式错误！",Toast.LENGTH_LONG).show();
+                                               }else{
+                                                   FileUtil.saveFile(FileUtil.encrypt(data),path);
+                                                   Toast.makeText(MainActivity.this, "存档码导入成功！",Toast.LENGTH_LONG).show();
+                                               }
                                            } catch (Exception e) {
                                                Toast.makeText(MainActivity.this, "存档导入失败！",Toast.LENGTH_LONG).show();
                                            }
@@ -69,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                                                    lblTitle.setText(str);
                                                }
                                            } catch (Exception e) {
-                                               Toast.makeText(MainActivity.this, "存档解密失败！",Toast.LENGTH_LONG).show();
+                                               Toast.makeText(MainActivity.this, "存档码解密失败！",Toast.LENGTH_LONG).show();
                                            }
                                        }
                                    }
@@ -87,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                                                    lblTitle.setText(str);
                                                }
                                            } catch (Exception e) {
-                                               Toast.makeText(MainActivity.this, "存档加密失败！",Toast.LENGTH_LONG).show();
+                                               Toast.makeText(MainActivity.this, "存档码加密失败！",Toast.LENGTH_LONG).show();
                                            }
                                        }
                                    }
@@ -103,5 +116,25 @@ public class MainActivity extends AppCompatActivity {
                                        }
                                    }
         );
+    }
+    public Boolean checkPermission() {
+        boolean isGranted = true;
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                isGranted = false;
+            }
+            if (this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) !=PackageManager.PERMISSION_GRANTED) {
+                isGranted = false;
+            }
+            if (!isGranted) {
+                this.requestPermissions(
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission
+                                .ACCESS_FINE_LOCATION,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        102);
+            }
+        }
+        return isGranted;
     }
 }
