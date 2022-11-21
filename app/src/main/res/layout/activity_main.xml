@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.percentlayout.widget.PercentFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+    <TextView
+            android:id="@+id/textView1"
+            android:text="当前存档码文件替换，可在多账号之间快速切换无需引继"
+            android:layout_gravity="center|top"
+            app:layout_marginLeftPercent="0%"
+            app:layout_marginTopPercent="0%"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="10%" android:gravity="center"/>
+    <EditText
+            android:id="@+id/editText1"
+            android:text=""
+            android:layout_gravity="center|top"
+            app:layout_marginLeftPercent="0%"
+            app:layout_marginTopPercent="10%"
+            app:layout_widthPercent="98%"
+            app:layout_heightPercent="30%" android:background="@drawable/edit_background" android:gravity="top"/>
+    <Button
+            android:id="@+id/buttonCopy1"
+            android:text="复制存档码"
+            android:layout_gravity="left"
+            app:layout_marginLeftPercent="10%"
+            app:layout_marginTopPercent="40%"
+            app:layout_widthPercent="25%"
+            app:layout_heightPercent="10%"
+    />
+    <Button
+            android:id="@+id/buttonImport1"
+            android:text="导入存档码"
+            android:layout_gravity="right"
+            app:layout_marginRightPercent="10%"
+            app:layout_marginTopPercent="40%"
+            app:layout_widthPercent="25%"
+            app:layout_heightPercent="10%"/>
+    <TextView
+            android:id="@+id/textView2"
+            android:text="存档码文件加解密"
+            android:layout_gravity="center|top"
+            app:layout_marginLeftPercent="0%"
+            app:layout_marginTopPercent="50%"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="10%" android:gravity="center"/>
+    <EditText
+            android:id="@+id/editText2"
+            android:text=""
+            android:layout_gravity="center|top"
+            app:layout_marginLeftPercent="0%"
+            app:layout_marginTopPercent="60%"
+            app:layout_widthPercent="98%"
+            app:layout_heightPercent="20%" android:background="@drawable/edit_background" android:gravity="top"/>
+    <Button
+            android:id="@+id/buttonCopy2"
+            android:text="存档码解密"
+            android:layout_gravity="left"
+            app:layout_marginLeftPercent="10%"
+            app:layout_marginTopPercent="80%"
+            app:layout_widthPercent="25%"
+            app:layout_heightPercent="10%"/>
+    <Button
+            android:id="@+id/buttonImport2"
+            android:text="存档码加密"
+            android:layout_gravity="right"
+            app:layout_marginRightPercent="10%"
+            app:layout_marginTopPercent="80%"
+            app:layout_widthPercent="25%"
+            app:layout_heightPercent="10%"/>
+    <Button
+            android:id="@+id/button"
+            android:text="FGO日服代肝群：376210436"
+            android:layout_gravity="center"
+            app:layout_marginTopPercent="45%"
+            app:layout_widthPercent="98%"
+            app:layout_heightPercent="10%"/>
+
+</androidx.percentlayout.widget.PercentFrameLayout>
