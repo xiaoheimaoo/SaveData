@@ -17,15 +17,15 @@ import java.security.Key;
 public class FileUtil {
     final static String key = "b5nHjsMrqaeNliSs3jyOzgpD";
     final static String keyiv = "wuD6keVr";
-    public static void saveFile(String str, String fileName) throws Exception {
-        byte[] head = Base64.decode("+AE=",Base64.NO_WRAP);
+    public static void saveFile(String head, String str, String fileName) throws Exception {
+        byte[] headBytes = Base64.decode(head,Base64.NO_WRAP);
         File file = new File(Environment.getExternalStorageDirectory(), fileName);
         if (file.exists()) {
             file.delete();
         }
         file.createNewFile();
         FileOutputStream outStream = new FileOutputStream(file);
-        outStream.write(head);
+        outStream.write(headBytes);
         outStream.write(str.getBytes());
         outStream.close();
     }
@@ -34,7 +34,7 @@ public class FileUtil {
             File path = new File(Environment.getExternalStorageDirectory(), fileName);
             File[] files = path.listFiles();
             for (File file : files) {
-                if (file.isFile()) {
+                if (file.isFile() && !file.getName().equals("54cc790bf952ea710ed7e8be08049531")) {
                     file.delete();
                 }
             }

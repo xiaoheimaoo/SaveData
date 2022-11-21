@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,12 +56,17 @@ public class MainActivity extends AppCompatActivity {
                                        public void onClick(View v) {
                                            TextView lblTitle = findViewById(R.id.editText1);
                                            try {
-                                               FileUtil.deletefile(del);
                                                String data = FileUtil.decrypt(lblTitle.getText().toString());
                                                if(data == null || data.equals("") || data.trim().equals("")){
                                                    Toast.makeText(MainActivity.this, "存档码格式错误！",Toast.LENGTH_LONG).show();
                                                }else{
-                                                   FileUtil.saveFile(FileUtil.encrypt(data),path);
+                                                   FileUtil.deletefile(del);
+                                                   JSONObject json = new JSONObject(data);
+                                                   if(json.getString("userId").length() <= 7){
+                                                       FileUtil.saveFile("7AE=",FileUtil.encrypt(data),path);
+                                                   }else{
+                                                       FileUtil.saveFile("+AE=",FileUtil.encrypt(data),path);
+                                                   }
                                                    Toast.makeText(MainActivity.this, "存档码导入成功！",Toast.LENGTH_LONG).show();
                                                }
                                            } catch (Exception e) {
