@@ -21,13 +21,13 @@
             app:layout_marginLeftPercent="0%"
             app:layout_marginTopPercent="10%"
             app:layout_widthPercent="98%"
-            app:layout_heightPercent="30%" android:background="@drawable/edit_background" android:gravity="top"/>
+            app:layout_heightPercent="40%" android:background="@drawable/edit_background" android:gravity="top"/>
     <Button
             android:id="@+id/buttonCopy1"
             android:text="复制存档码"
             android:layout_gravity="left"
             app:layout_marginLeftPercent="10%"
-            app:layout_marginTopPercent="40%"
+            app:layout_marginTopPercent="50%"
             app:layout_widthPercent="25%"
             app:layout_heightPercent="10%"
     />
@@ -36,10 +36,10 @@
             android:text="导入存档码"
             android:layout_gravity="right"
             app:layout_marginRightPercent="10%"
-            app:layout_marginTopPercent="40%"
+            app:layout_marginTopPercent="50%"
             app:layout_widthPercent="25%"
             app:layout_heightPercent="10%"/>
-    <TextView
+<!--    <TextView
             android:id="@+id/textView2"
             android:text="存档码文件加解密"
             android:layout_gravity="center|top"
@@ -70,12 +70,12 @@
             app:layout_marginRightPercent="10%"
             app:layout_marginTopPercent="80%"
             app:layout_widthPercent="25%"
-            app:layout_heightPercent="10%"/>
+            app:layout_heightPercent="10%"/>-->
     <Button
             android:id="@+id/button"
             android:text="FGO日服代肝群：376210436"
             android:layout_gravity="center"
-            app:layout_marginTopPercent="45%"
+            app:layout_marginTopPercent="25%"
             app:layout_widthPercent="98%"
             app:layout_heightPercent="10%"/>
 

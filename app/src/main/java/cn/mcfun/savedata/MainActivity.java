@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                                        }
                                    }
         );
-        Button button3 = findViewById(R.id.buttonCopy2);
+        /*Button button3 = findViewById(R.id.buttonCopy2);
         button3.setOnClickListener(new View.OnClickListener(){
                                        public void onClick(View v) {
                                            TextView lblTitle = findViewById(R.id.editText2);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                                            }
                                        }
                                    }
-        );
+        );*/
         Button button5 = findViewById(R.id.button);
         button5.setOnClickListener(new View.OnClickListener(){
                                        public void onClick(View v) {
