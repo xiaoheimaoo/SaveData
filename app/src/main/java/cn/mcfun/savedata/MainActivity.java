@@ -16,8 +16,9 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
-    final String path = "/Android/data/com.aniplex.fategrandorder/files/data/54cc790bf952ea710ed7e8be08049531";
-    final String del = "/Android/data/com.aniplex.fategrandorder/files/data";
+    String userCreateServer = "/Android/data/com.aniplex.fategrandorder";
+    String path = userCreateServer + "/files/data/54cc790bf952ea710ed7e8be08049531";
+    String del = userCreateServer + "/files/data";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         while(!checkPermission()){
@@ -29,7 +30,35 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView lblTitle = findViewById(R.id.editText1);
+        // 找到切换服务器的按钮
+        final TextView lblTitle = findViewById(R.id.editText1);
+        final Button changeServerButton = findViewById(R.id.buttonChangeServer);
+        loadDataAndUpdateUI(lblTitle);
+        final Button changeButton = findViewById(R.id.buttonChangeServer);
+        final TextView directoryTextView = findViewById(R.id.textView3);
+        changeServerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 切换 userCreateServer 的值
+                if (userCreateServer.equals("/Android/data/com.aniplex.fategrandorder")) {
+                    userCreateServer = "/Android/data/com.aniplex.fategrandorder.en";
+                } else {
+                    userCreateServer = "/Android/data/com.aniplex.fategrandorder";
+                }
+                // 更新相关路径
+                path = userCreateServer + "/files/data/54cc790bf952ea710ed7e8be08049531";
+                del = userCreateServer + "/files/data";
+
+                // 重新加载数据并更新 UI
+                loadDataAndUpdateUI(lblTitle);
+                // 更新 TextView 的内容
+                if (userCreateServer.endsWith(".en")) {
+                    directoryTextView.setText("美服目录");
+                } else {
+                    directoryTextView.setText("日服目录");
+                }
+            }
+        });
         String data = null;
         try {
             data = FileUtil.getFile(path);
@@ -75,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                        }
                                    }
         );
-        /*Button button3 = findViewById(R.id.buttonCopy2);
+        Button button3 = findViewById(R.id.buttonCopy2);
         button3.setOnClickListener(new View.OnClickListener(){
                                        public void onClick(View v) {
                                            TextView lblTitle = findViewById(R.id.editText2);
@@ -110,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
                                            }
                                        }
                                    }
-        );*/
-        Button button5 = findViewById(R.id.button);
+        );
+/*        Button button5 = findViewById(R.id.button);
         button5.setOnClickListener(new View.OnClickListener(){
                                        public void onClick(View v) {
                                            Intent intent = new Intent();
@@ -121,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                                            startActivity(intent);
                                        }
                                    }
-        );
+        );*/
     }
     public Boolean checkPermission() {
         boolean isGranted = true;
@@ -142,5 +171,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return isGranted;
+    }
+    private void loadDataAndUpdateUI(TextView textView) {
+        try {
+            String data = FileUtil.getFile(path);
+            textView.setText(data);
+        } catch (Exception e) {
+            textView.setText("权限不足或未找到存档码文件！");
+        }
     }
 }
