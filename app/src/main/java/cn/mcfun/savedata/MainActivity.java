@@ -326,10 +326,13 @@ public class MainActivity extends AppCompatActivity {
      * 删除文件或目录（使用 Root 权限）
      */
     private void deleteFileWithRoot(String path) throws Exception {
-        // 使用 find 命令查找所有文件并删除，而不删除子目录
-        String cmd = "find " + path + " -type f -exec rm -f {} +";
+        // 使用 find 命令查找当前目录下的所有文件并删除，不递归删除子目录中的文件
+        String cmd = "find " + path + " -maxdepth 1 -type f -exec rm -f {} +";
         Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
-        process.waitFor();
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new RuntimeException("Failed to delete files in directory: " + path);
+        }
     }
 
 }
