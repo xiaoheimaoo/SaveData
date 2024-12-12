@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
                         deleteFileWithRoot(del);
                         JSONObject json = new JSONObject(data);
                         if (json.getString("userId").length() <= 7) {
-                            FileUtil.saveFile("7AE=", FileUtil.encrypt(data), path);
+                            FileUtil.saveFileWithRoot("7AE=", FileUtil.encrypt(data), path);
                         } else {
-                            FileUtil.saveFile("+AE=", FileUtil.encrypt(data), path);
+                            FileUtil.saveFileWithRoot("+AE=", FileUtil.encrypt(data), path);
                         }
                         Toast.makeText(MainActivity.this, "存档码导入成功！", Toast.LENGTH_SHORT).show();
                         loadDataAndUpdateUI(lblTitle);

@@ -7,27 +7,57 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.security.Key;
 
 
 public class FileUtil {
     final static String key = "b5nHjsMrqaeNliSs3jyOzgpD";
     final static String keyiv = "wuD6keVr";
-    public static void saveFile(String head, String str, String fileName) throws Exception {
-        byte[] headBytes = Base64.decode(head,Base64.NO_WRAP);
-        File file = new File(Environment.getExternalStorageDirectory(), fileName);
-        if (file.exists()) {
-            file.delete();
+    public static void saveFileWithRoot(String head, String str, String fileName) throws Exception {
+        // 将 head 解码
+        byte[] headBytes = Base64.decode(head, Base64.NO_WRAP);
+
+        // 目标文件路径
+        String path = fileName;  // 你可以替换成需要的路径
+
+        // 创建新文件
+        createFileWithRoot(path);
+
+        // 写入数据
+        writeToFileWithRoot(path, headBytes, str.getBytes());
+    }
+    /**
+     * 使用 Root 权限创建文件
+     */
+    private static void createFileWithRoot(String path) throws Exception {
+        String cmd = "touch " + path;
+        Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
+        process.waitFor();
+    }
+
+    /**
+     * 使用 Root 权限将数据写入文件
+     */
+    private static void writeToFileWithRoot(String path, byte[] headBytes, byte[] contentBytes) throws Exception {
+        // 使用 Root 权限打开文件输出流并写入数据
+        String cmd = "cat > " + path;
+        Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
+
+        // 通过输出流写入文件
+        try (OutputStream outputStream = process.getOutputStream()) {
+            // 先写入 headBytes
+            outputStream.write(headBytes);
+            // 然后写入 contentBytes
+            outputStream.write(contentBytes);
+            outputStream.flush(); // 确保数据被写入
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Exception("写入文件失败", e);
         }
-        file.createNewFile();
-        FileOutputStream outStream = new FileOutputStream(file);
-        outStream.write(headBytes);
-        outStream.write(str.getBytes());
-        outStream.close();
+
+        // 等待命令执行完成
+        process.waitFor();
     }
     public static void deletefile(String fileName) {
         try {
