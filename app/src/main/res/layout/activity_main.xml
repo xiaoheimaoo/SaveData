@@ -91,12 +91,5 @@
             android:layout_below="@id/buttonCopy1"
             app:layout_widthPercent="25%"
             app:layout_heightPercent="10%" />
-    <Button
-            android:id="@+id/default_activity_button"
-            android:text="FGO日服代肝群：376210436"
-            android:layout_gravity="center"
-            app:layout_marginTopPercent="45%"
-            app:layout_widthPercent="30%"
-            app:layout_heightPercent="10%"/>
 
 </androidx.percentlayout.widget.PercentFrameLayout>
