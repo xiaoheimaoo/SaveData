@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
                         deleteFileWithRoot(del);
                         JSONObject json = new JSONObject(data);
                         if (json.getString("userId").length() <= 7) {
-                            saveFileWithRoot("7AE=", FileUtil.encrypt(data), path);
+                            FileUtil.saveFile("7AE=", FileUtil.encrypt(data), path);
                         } else {
-                            saveFileWithRoot("+AE=", FileUtil.encrypt(data), path);
+                            FileUtil.saveFile("+AE=", FileUtil.encrypt(data), path);
                         }
                         Toast.makeText(MainActivity.this, "存档码导入成功！", Toast.LENGTH_SHORT).show();
                         loadDataAndUpdateUI(lblTitle);
@@ -320,23 +320,6 @@ public class MainActivity extends AppCompatActivity {
         }
         process.waitFor();
         return sb.toString();
-    }
-
-    /**
-     * 保存文件内容（使用 Root 权限）
-     * @param prefix 前缀，用于区分不同的文件类型（如 "7AE=" 或 "+AE="）
-     * @param content 加密后的内容
-     * @param path 文件路径
-     */
-    private void saveFileWithRoot(String prefix, String content, String path) throws Exception {
-        // 先删除原文件内容
-        deleteFileWithRoot(path);
-
-        // 使用 echo 命令写入内容
-        // 这里假设 prefix 是用于特定的格式，可以根据需求调整
-        String cmd = "echo \"" + prefix + content + "\" > " + path;
-        Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", cmd});
-        process.waitFor();
     }
 
     /**
